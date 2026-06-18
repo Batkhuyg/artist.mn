@@ -56,6 +56,7 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [comingSoon, setComingSoon] = useState(false)
 
   if (done) {
     return (
@@ -108,9 +109,15 @@ export default function Checkout() {
     }
   }
 
-  // On submit: gate behind login (same popup), then start checkout.
+  // Toggle online payment. Off → show "coming soon" warning instead of charging.
+  const PAYMENT_ENABLED = false
+
   const submit = (e: FormEvent) => {
     e.preventDefault()
+    if (!PAYMENT_ENABLED) {
+      setComingSoon(true)
+      return
+    }
     if (!customer) {
       openLoginModal(() => { void startCheckout() })
       return
@@ -159,8 +166,13 @@ export default function Checkout() {
             </p>
           )}
           <Button type="submit" className="w-full" disabled={submitting}>
-            {submitting ? 'Уншиж байна...' : customer ? 'Төлбөр төлөх' : 'Нэвтрэд захиалах'}
+            {submitting ? 'Уншиж байна...' : 'Төлбөр төлөх'}
           </Button>
+          {comingSoon && (
+            <p className="rounded-[var(--radius-md)] border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-center text-[14px] text-amber-400">
+              Онлайн төлбөрийн систем тун удахгүй нэвтэрнэ. Түр хүлээнэ үү.
+            </p>
+          )}
         </form>
 
         {payOpen && (
