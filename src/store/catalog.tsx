@@ -18,6 +18,7 @@ interface CatalogCtx {
   artists: Artist[]
   findProduct: (id: string) => Product | undefined
   findAlbum: (id: string) => Album | undefined
+  findArtist: (id: string) => Artist | undefined
   // Total remaining stock for an id (album or whole product), null when untracked.
   capacityOf: (id: string) => number | null
   // Per-size remaining for a merch id, null when none set.
@@ -27,7 +28,7 @@ interface CatalogCtx {
 
 const empty: CatalogCtx = {
   products: [], merch: [], albums: [], artists: [],
-  findProduct: () => undefined, findAlbum: () => undefined,
+  findProduct: () => undefined, findAlbum: () => undefined, findArtist: () => undefined,
   capacityOf: () => null, sizeStockOf: () => null, ready: false,
 }
 
@@ -92,6 +93,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
     const artists = groupArtists(albums).sort(
       (a, b) => (artistOrder.get(a.id) ?? 0) - (artistOrder.get(b.id) ?? 0),
     )
+    const artistMap = new Map(artists.map((a) => [a.id, a]))
     return {
       products,
       merch: products.filter((p) => p.kind === 'merch'),
@@ -99,6 +101,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       artists,
       findProduct: (id) => productMap.get(id),
       findAlbum: (id) => albumMap.get(id),
+      findArtist: (id) => artistMap.get(id),
       capacityOf: (id) => (capacity.has(id) ? capacity.get(id)! : null),
       sizeStockOf: (id) => sizeStock.get(id) ?? null,
       ready,

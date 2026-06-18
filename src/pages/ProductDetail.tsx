@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { formatMNT, isImageUrl } from '../data/catalog.ts'
 import { useBasket } from '../store/basket.tsx'
@@ -18,6 +18,12 @@ export default function ProductDetail() {
   const [size, setSize] = useState<string | undefined>(undefined)
   const [added, setAdded] = useState(false)
   const [stockMsg, setStockMsg] = useState<string | null>(null)
+
+  // Reset scroll + size when navigating to another product (related card).
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    setSize(undefined)
+  }, [id])
 
   if (!p) {
     return (

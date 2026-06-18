@@ -9,6 +9,7 @@ export interface Product {
   kind: ProductKind
   title: string
   artist: string
+  artist_id: string
   price: number // MNT
   cover: string // gradient css or image url
   tag?: string
@@ -102,6 +103,7 @@ export function rowToProduct(row: Row): Product {
     kind: (row.kind as ProductKind) ?? 'merch',
     title: String(row.title ?? ''),
     artist: String(row.artist ?? ''),
+    artist_id: String(row.artist_id ?? ''),
     price: Number(row.price) || 0,
     cover: String(row.cover ?? ''),
     tag: row.tag ? String(row.tag) : undefined,
