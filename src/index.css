@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/*
+  Design tokens ported from DESIGN_SYSTEM.md (Philosophy Customer App).
+  Dark-first. Semantic layer over the raw ramp.
+*/
+@theme {
+  /* surface */
+  --color-bg: #141414;        /* B800_background */
+  --color-surface: #232323;   /* B700_coregray  */
+  --color-elevated: #353535;  /* B750           */
+  --color-black: #1e252f;     /* B900_black     */
+
+  /* text / ink */
+  --color-ink: #ffffff;       /* W900 */
+  --color-ink-soft: #9aa4b2;  /* G700 — AA-safe on dark */
+  --color-ink-muted: #879dab; /* grey2 — large text only */
+
+  /* lines */
+  --color-line: #353535;
+
+  /* actions / feedback */
+  --color-accent: #2196f3;    /* primaryBlue */
+  --color-danger: #e21204;    /* R900 */
+
+  /* radius scale */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* type — Google Sans webfont; system fallback stack */
+  --font-sans: "Google Sans", -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--color-accent); color: #fff; }
+
+/* slim scrollbar to match dark theme */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--color-elevated); border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }
